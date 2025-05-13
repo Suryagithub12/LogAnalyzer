@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Upload Log File</title>
+    <style>
+        body { font-family: Arial; background: #f0f0f0; padding: 20px; }
+        form { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px #ccc; width: 300px; margin: auto; }
+        h2 { text-align: center; }
+        button { margin-top: 10px; padding: 5px 15px; }
+
+    </style>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<h2>Upload Log File</h2>
+<form method="post" action="/upload" enctype="multipart/form-data">
+    <input type="file" name="file" accept=".txt" required />
+    <button type="submit">Upload</button>
+</form>
+</body>
+</html>
