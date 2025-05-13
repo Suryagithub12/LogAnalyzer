@@ -21,30 +21,22 @@
     </li>
 </ul>
 
-<table border="1">
-    <thead>
-    <tr>
-        <th>Email</th>
-        <th>IP Address</th>
-        <th>User Agent</th>
-        <th>Device Type</th>
-        <th>OS</th>
-        <th>Android Version</th>
-        <th>Browser</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="entry : ${entries}">
-        <td th:text="${entry.email}"></td>
-        <td th:text="${entry.ip}"></td>
-        <td th:text="${entry.userAgent}"></td>
-        <td th:text="${entry.deviceType}"></td>
-        <td th:text="${entry.os}"></td>
-        <td th:text="${entry.androidVersion}"></td>
-        <td th:text="${entry.detectBrowser}"></td>
-    </tr>
-    </tbody>
-</table>
+<h3>Country Distribution</h3>
+<canvas id="countryChart"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script th:inline="javascript">
+    let countryData = [[${countryStats}]];
+    let labels = Object.keys(countryData);
+    let values = Object.values(countryData);
+
+    new Chart(document.getElementById('countryChart'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{ label: 'Users by Country', data: values, backgroundColor: 'teal' }]
+        }
+    });
+</script>
 
 <br>
 <a href="/">Upload Another File</a>

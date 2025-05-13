@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -17,18 +18,19 @@ public class FileUploadController {
     @Autowired
     private LogProcessingService logProcessingService;
 
-
     @PostMapping("/upload")
     public String uploadLogFile(@RequestParam("file") MultipartFile file, Model model) {
         try {
             List<LogEntry> validEntries = logProcessingService.processLogFile(file);
             Map<String, Integer> deviceCount = logProcessingService.getDeviceCount(validEntries);
             Map<String, Integer> osCount = logProcessingService.getOSCount(validEntries);
+            Map<String, Integer> countryStats = logProcessingService.getCountryStats(validEntries);
 
             model.addAttribute("entries", validEntries);
             model.addAttribute("total", validEntries.size());
             model.addAttribute("deviceCount", deviceCount);
             model.addAttribute("osCount", osCount);
+            model.addAttribute("countryStats", countryStats);
         } catch (Exception e) {
             model.addAttribute("message", "Error while reading file.");
         }
