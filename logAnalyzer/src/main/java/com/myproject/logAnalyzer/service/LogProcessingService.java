@@ -71,4 +71,15 @@ public class LogProcessingService {
         }
         return countryStats;
     }
+
+    public Map<String, Integer> getHourlyStats(List<LogEntry> entries) {
+        Map<String, Integer> hourlyStats = new TreeMap<>();
+        for (LogEntry entry : entries) {
+            String timestamp = entry.getTimestamp(); // assuming format like "2024-05-13 15:22:01"
+            String hour = timestamp.split(" ")[1].split(":")[0]; // get "15" from "15:22:01"
+            hourlyStats.put(hour, hourlyStats.getOrDefault(hour, 0) + 1);
+        }
+        return hourlyStats;
+    }
+
 }

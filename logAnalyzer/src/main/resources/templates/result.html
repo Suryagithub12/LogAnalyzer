@@ -3,6 +3,49 @@
 <head>
     <title>Log Results</title>
     <link rel="stylesheet" th:href="@{/style.css}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background-color: #f4f4f4;
+            margin: 20px;
+        }
+
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #3f51b5;
+            padding-bottom: 5px;
+        }
+
+        h3 {
+            color: #444;
+            margin-top: 30px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        canvas {
+            max-width: 100%;
+            margin-top: 20px;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 30px;
+            text-decoration: none;
+            color: white;
+            background-color: #3f51b5;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
 <h2>Total Valid Log Entries: <span th:text="${total}"></span></h2>
@@ -20,25 +63,79 @@
         <span th:text="${entry.key}">OS</span> : <span th:text="${entry.value}">0</span>
     </li>
 </ul>
+<canvas id="osChart"></canvas>
 
 <h3>Country Distribution</h3>
 <canvas id="countryChart"></canvas>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script th:inline="javascript">
-    let countryData = [[${countryStats}]];
-    let labels = Object.keys(countryData);
-    let values = Object.values(countryData);
 
+<h3>Hourly Hits</h3>
+<canvas id="hourChart"></canvas>
+
+<a href="/">Upload Another File</a>
+
+<!-- CHART.JS SCRIPT -->
+<script th:inline="javascript">
+    const countryData = [[${countryStats}]];
+    const osData = [[${osCount}]];
+    const hourData = [[${hourlyStats}]];
+
+    const countryLabels = Object.keys(countryData);
+    const countryValues = Object.values(countryData);
+
+    const osLabels = Object.keys(osData);
+    const osValues = Object.values(osData);
+
+    const hourLabels = Object.keys(hourData);
+    const hourValues = Object.values(hourData);
+
+    // Country Chart (Pie)
     new Chart(document.getElementById('countryChart'), {
+        type: 'pie',
+        data: {
+            labels: countryLabels,
+            datasets: [{
+                label: 'Country Distribution',
+                data: countryValues,
+                backgroundColor: ['#42A5F5', '#66BB6A', '#FFA726', '#AB47BC', '#EF5350']
+            }]
+        }
+    });
+
+    // OS Chart (Doughnut)
+    new Chart(document.getElementById('osChart'), {
+        type: 'doughnut',
+        data: {
+            labels: osLabels,
+            datasets: [{
+                label: 'Operating System',
+                data: osValues,
+                backgroundColor: ['#5C6BC0', '#26A69A', '#FF7043', '#7E57C2', '#29B6F6']
+            }]
+        }
+    });
+
+    // Hourly Hits Chart (Bar)
+    new Chart(document.getElementById('hourChart'), {
         type: 'bar',
         data: {
-            labels: labels,
-            datasets: [{ label: 'Users by Country', data: values, backgroundColor: 'teal' }]
+            labels: hourLabels,
+            datasets: [{
+                label: 'Hits per Hour',
+                data: hourValues,
+                backgroundColor: '#3f51b5'
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            }
         }
     });
 </script>
-
-<br>
-<a href="/">Upload Another File</a>
 </body>
 </html>
