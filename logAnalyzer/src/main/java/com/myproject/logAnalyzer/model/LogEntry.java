@@ -13,7 +13,7 @@ public class LogEntry {
     private String city;
 
 
-    public LogEntry(String email, String ip, String userAgent, String deviceType, String os, String androidVersion, String detectBrowser) {
+    public LogEntry(String timestamp, String s, String agent, String email, String ip, String userAgent, String deviceType, String os, String androidVersion, String detectBrowser) {
         this.email = email;
         this.ip = ip;
         this.userAgent = userAgent;
@@ -21,7 +21,7 @@ public class LogEntry {
         this.os = os;
         this.androidVersion = androidVersion;
         this.detectBrowser = detectBrowser;
-        this.timestamp = timestamp;
+        this.timestamp = this.timestamp;
         this.country = country;
         this.city = city;
     }

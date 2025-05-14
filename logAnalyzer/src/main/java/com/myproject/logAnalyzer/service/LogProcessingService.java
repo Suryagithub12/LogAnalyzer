@@ -2,6 +2,7 @@ package com.myproject.logAnalyzer.service;
 
 import com.myproject.logAnalyzer.model.LogEntry;
 import com.myproject.logAnalyzer.util.GeoIPUtil;
+import com.myproject.logAnalyzer.util.GeoLocation;
 import com.myproject.logAnalyzer.util.UserAgentParser;
 import com.myproject.logAnalyzer.util.ValidatorUtil;
 import org.springframework.stereotype.Service;
